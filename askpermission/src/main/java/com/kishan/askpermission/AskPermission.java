@@ -1,4 +1,4 @@
-package com.kishan.runtimepermission;
+package com.kishan.askpermission;
 
 import android.app.Activity;
 import android.app.FragmentManager;

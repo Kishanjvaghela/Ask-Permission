@@ -1,4 +1,4 @@
-package com.kishan.runtimepermission;
+package com.kishan.askpermission;
 
 /**
  * Created by CS02 on 10/14/2016.

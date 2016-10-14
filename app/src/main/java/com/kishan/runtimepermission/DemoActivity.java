@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import com.kishan.askpermission.AskPermission;
+import com.kishan.askpermission.PermissionCallback;
 
 public class DemoActivity extends AppCompatActivity implements PermissionCallback {
   private static final int REQUEST_PERMISSIONS = 20;
@@ -25,11 +27,11 @@ public class DemoActivity extends AppCompatActivity implements PermissionCallbac
   }
 
   private void reqPermission() {
-    AskPermission.Builder builder = new AskPermission.Builder(this);
-    builder.setRationale(R.string.runtime_permission);
-    builder.setPermissions(Manifest.permission.READ_CONTACTS,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    builder.setCallback(this);
+    AskPermission.Builder builder =
+        new AskPermission.Builder(this).setRationale(R.string.runtime_permission)
+            .setCallback(this)
+            .setPermissions(Manifest.permission.READ_CONTACTS,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
     builder.request(REQUEST_PERMISSIONS);
   }
 
