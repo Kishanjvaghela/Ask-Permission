@@ -1,6 +1,7 @@
 package com.kishan.askpermission;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -13,8 +14,30 @@ import java.security.InvalidParameterException;
  * Created by CS02 on 10/14/2016.
  */
 
-public class AskPermission {
+public class AskPermission implements PermissionCallback {
   private static final String TAG = "AskPermission";
+  private static final String PERMISSION_TAG = "permission";
+  private PermissionCallback mCallback;
+  private Activity activity;
+  private android.app.Fragment fragment;
+
+  public AskPermission(Activity activity, PermissionCallback callback) {
+    this.activity = activity;
+    this.mCallback = callback;
+  }
+
+  public AskPermission(Fragment fragment, PermissionCallback callback) {
+    this.fragment = fragment;
+    this.mCallback = callback;
+  }
+
+  private void requestAppPermissions(Builder builder, int requestCode) {
+    if (activity != null) {
+      requestAppPermissions(builder, activity.getFragmentManager(), requestCode);
+    } else if (fragment != null) {
+      requestAppPermissions(builder, fragment.getFragmentManager(), requestCode);
+    }
+  }
 
   private void requestAppPermissions(Builder builder, FragmentManager fragManager,
       int requestCode) {
@@ -25,14 +48,47 @@ public class AskPermission {
       throw new InvalidParameterException("Callback must be set");
     }
     ShadowFragment fragment = new ShadowFragment();
-    fragment.setInterface(builder.callback);
-    fragment.setRequestedPermission(builder.permissions);
+    fragment.setInterface(this);
+    fragment.setPermission(builder.permissions);
     fragment.setRationale(builder.rationale);
     fragment.setRequestCode(requestCode);
-
     FragmentTransaction fragmentTransaction = fragManager.beginTransaction();
-    fragmentTransaction.add(fragment, "supportFragment");
+    fragmentTransaction.add(fragment, PERMISSION_TAG);
     fragmentTransaction.commit();
+  }
+
+  @Override
+  public void onPermissionsGranted(int requestCode) {
+    mCallback.onPermissionsGranted(requestCode);
+    removeFragment();
+  }
+
+  @Override
+  public void onPermissionsDenied(int requestCode) {
+    mCallback.onPermissionsDenied(requestCode);
+    removeFragment();
+  }
+
+  @Override
+  public void onShowRationalDialog(int requestCode) {
+    mCallback.onShowRationalDialog(requestCode);
+  }
+
+  private void removeFragment() {
+    if (activity != null) {
+      removeFragment(activity.getFragmentManager());
+    } else if (fragment != null) {
+      removeFragment(fragment.getFragmentManager());
+    }
+  }
+
+  private void removeFragment(FragmentManager fragmentManager) {
+    Fragment fragment = fragmentManager.findFragmentByTag(PERMISSION_TAG);
+    if (fragment != null) {
+      FragmentTransaction transaction = fragmentManager.beginTransaction();
+      transaction.remove(fragment);
+      transaction.commit();
+    }
   }
 
   /**
@@ -106,12 +162,13 @@ public class AskPermission {
      * @param requestCode positive <code>int</code> value to identify the permission request
      */
     public void request(@IntRange(from = 1, to = Integer.MAX_VALUE) final int requestCode) {
-      AskPermission permission = new AskPermission();
+      AskPermission permission;
       if (activity != null) {
-        permission.requestAppPermissions(this, activity.getFragmentManager(), requestCode);
-      }
-      if (fragment != null) {
-        permission.requestAppPermissions(this, fragment.getFragmentManager(), requestCode);
+        permission = new AskPermission(activity, callback);
+        permission.requestAppPermissions(this, requestCode);
+      } else if (fragment != null) {
+        permission = new AskPermission(fragment, callback);
+        permission.requestAppPermissions(this, requestCode);
       }
     }
 

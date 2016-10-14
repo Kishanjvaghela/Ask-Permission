@@ -7,4 +7,8 @@ package com.kishan.askpermission;
 public interface PermissionCallback {
 
   void onPermissionsGranted(int requestCode);
+
+  void onPermissionsDenied(int requestCode);
+
+  void onShowRationalDialog(int requestCode);
 }

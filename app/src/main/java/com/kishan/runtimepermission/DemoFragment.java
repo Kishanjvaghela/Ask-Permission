@@ -3,6 +3,7 @@ package com.kishan.runtimepermission;
 import android.Manifest;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.kishan.askpermission.PermissionCallback;
  * A simple {@link Fragment} subclass.
  */
 public class DemoFragment extends Fragment implements PermissionCallback {
+  private static final String TAG = "DemoFragment";
   private static final int REQUEST_PERMISSIONS = 20;
   private Button reqButton;
 
@@ -48,5 +50,15 @@ public class DemoFragment extends Fragment implements PermissionCallback {
   @Override
   public void onPermissionsGranted(int requestCode) {
     Toast.makeText(getActivity(), "Permissions Received.", Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void onPermissionsDenied(int requestCode) {
+    Toast.makeText(getActivity(), "Permissions Denied.", Toast.LENGTH_LONG).show();
+  }
+
+  @Override
+  public void onShowRationalDialog(int requestCode) {
+    Log.d(TAG, "onShowRationalDialog: ");
   }
 }
