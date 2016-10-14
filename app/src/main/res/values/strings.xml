@@ -3,4 +3,9 @@
   <string name="action_settings">Settings</string>
   <string name="btn_request">Request Permission</string>
   <string name="runtime_permission">Runtime permission required</string>
+  <string name="btn_activity_demo">Activity Demo</string>
+  <string name="btn_fragment_demo">Fragment Demo</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank supportFragment</string>
 </resources>

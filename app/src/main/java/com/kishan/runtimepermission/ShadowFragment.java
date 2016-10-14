@@ -43,7 +43,6 @@ public class ShadowFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mInterface.log();
     mErrorString = new SparseArray<>();
     requestAppPermissions(requestedPermission, rationaleString, requestCode);
   }

@@ -5,7 +5,6 @@ package com.kishan.runtimepermission;
  */
 
 public interface PermissionCallback {
-  void log();
 
   void onPermissionsGranted(int requestCode);
 }

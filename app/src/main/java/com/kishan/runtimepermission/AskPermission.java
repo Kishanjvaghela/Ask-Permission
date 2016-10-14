@@ -3,6 +3,7 @@ package com.kishan.runtimepermission;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -30,7 +31,7 @@ public class AskPermission {
     fragment.setRequestCode(requestCode);
 
     FragmentTransaction fragmentTransaction = fragManager.beginTransaction();
-    fragmentTransaction.add(fragment, "fragment");
+    fragmentTransaction.add(fragment, "supportFragment");
     fragmentTransaction.commit();
   }
 
@@ -42,9 +43,14 @@ public class AskPermission {
     private String[] permissions;
     private PermissionCallback callback;
     private Activity activity;
+    private android.app.Fragment fragment;
 
     public Builder(Activity activity) {
       this.activity = activity;
+    }
+
+    public Builder(android.app.Fragment fragment) {
+      this.fragment = fragment;
     }
 
     /**
@@ -65,7 +71,10 @@ public class AskPermission {
      * @return {@link Builder}
      */
     public Builder setRationale(@StringRes int res) {
-      this.rationale = activity.getString(res);
+      Context context = getContext();
+      if (context != null) {
+        this.rationale = context.getString(res);
+      }
       return this;
     }
 
@@ -98,7 +107,22 @@ public class AskPermission {
      */
     public void request(@IntRange(from = 1, to = Integer.MAX_VALUE) final int requestCode) {
       AskPermission permission = new AskPermission();
-      permission.requestAppPermissions(this, activity.getFragmentManager(), requestCode);
+      if (activity != null) {
+        permission.requestAppPermissions(this, activity.getFragmentManager(), requestCode);
+      }
+      if (fragment != null) {
+        permission.requestAppPermissions(this, fragment.getFragmentManager(), requestCode);
+      }
+    }
+
+    private Context getContext() {
+      if (activity != null) {
+        return activity.getApplicationContext();
+      }
+      if (fragment != null) {
+        return fragment.getActivity().getApplicationContext();
+      }
+      return null;
     }
   }
 }
