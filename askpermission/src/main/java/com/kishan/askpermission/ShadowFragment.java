@@ -106,7 +106,10 @@ public class ShadowFragment extends Fragment {
     if ((grantResults.length > 0) && permissionCheck == PackageManager.PERMISSION_GRANTED) {
       mInterface.onPermissionsGranted(requestCode);
     } else {
-      mInterface.onPermissionsDenied(requestCode);
+      //Notes Dangerous this will remove the fragment and then it will open
+      // the alert dialog this cause the getActivity return null because its not longer
+      // available due to of remove the fragment is called.
+      //mInterface.onPermissionsDenied(requestCode);
       String errorString = mErrorString.get(requestCode);
       if (!TextUtils.isEmpty(errorString)) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
