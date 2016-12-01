@@ -7,28 +7,32 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import java.security.InvalidParameterException;
 
 /**
  * Created by CS02 on 10/14/2016.
  */
 
-public class AskPermission implements PermissionCallback {
+public class AskPermission implements PermissionCallback, ErrorCallback {
   private static final String TAG = "AskPermission";
   private static final String PERMISSION_TAG = "permission";
   private PermissionCallback mCallback;
+  private ErrorCallback mErrorCallback;
   private Activity activity;
-  private android.app.Fragment fragment;
+  private Fragment fragment;
 
-  public AskPermission(Activity activity, PermissionCallback callback) {
+  public AskPermission(Activity activity, PermissionCallback callback,
+      ErrorCallback errorCallback) {
     this.activity = activity;
     this.mCallback = callback;
+    this.mErrorCallback = errorCallback;
   }
 
-  public AskPermission(Fragment fragment, PermissionCallback callback) {
+  public AskPermission(Fragment fragment, PermissionCallback callback,
+      ErrorCallback errorCallback) {
     this.fragment = fragment;
     this.mCallback = callback;
+    this.mErrorCallback = errorCallback;
   }
 
   private void requestAppPermissions(Builder builder, int requestCode) {
@@ -49,8 +53,13 @@ public class AskPermission implements PermissionCallback {
     }
     ShadowFragment fragment = new ShadowFragment();
     fragment.setInterface(this);
+    if (mErrorCallback == null) {
+      fragment.setErrorInterface(null);
+    } else {
+      fragment.setErrorInterface(this);
+    }
+    fragment.setShowRationalDialog(builder.showRationalDialog);
     fragment.setPermission(builder.permissions);
-    fragment.setRationale(builder.rationale);
     fragment.setRequestCode(requestCode);
     FragmentTransaction fragmentTransaction = fragManager.beginTransaction();
     fragmentTransaction.add(fragment, PERMISSION_TAG);
@@ -70,8 +79,15 @@ public class AskPermission implements PermissionCallback {
   }
 
   @Override
-  public void onShowRationalDialog(int requestCode) {
-    mCallback.onShowRationalDialog(requestCode);
+  public void onShowRationalDialog(PermissionInterface permissionInterface, int requestCode) {
+    if (mErrorCallback != null) {
+      mErrorCallback.onShowRationalDialog(permissionInterface, requestCode);
+    }
+  }
+
+  @Override
+  public void onShowSettings(PermissionInterface permissionInterface, int requestCode) {
+    if (mErrorCallback != null) mErrorCallback.onShowSettings(permissionInterface, requestCode);
   }
 
   private void removeFragment() {
@@ -95,43 +111,19 @@ public class AskPermission implements PermissionCallback {
    * Builder class
    */
   public static class Builder {
-    private String rationale;
     private String[] permissions;
     private PermissionCallback callback;
+    private ErrorCallback errorCallback;
     private Activity activity;
-    private android.app.Fragment fragment;
+    private Fragment fragment;
+    private boolean showRationalDialog;
 
     public Builder(Activity activity) {
       this.activity = activity;
     }
 
-    public Builder(android.app.Fragment fragment) {
+    public Builder(Fragment fragment) {
       this.fragment = fragment;
-    }
-
-    /**
-     * Set the permission rationale message
-     *
-     * @param rationale {@link String} rationale
-     * @return {@link Builder}
-     */
-    public Builder setRationale(@NonNull String rationale) {
-      this.rationale = rationale;
-      return this;
-    }
-
-    /**
-     * Sset the permission rationale
-     *
-     * @param res Rationale string resource ID
-     * @return {@link Builder}
-     */
-    public Builder setRationale(@StringRes int res) {
-      Context context = getContext();
-      if (context != null) {
-        this.rationale = context.getString(res);
-      }
-      return this;
     }
 
     /**
@@ -156,6 +148,16 @@ public class AskPermission implements PermissionCallback {
       return this;
     }
 
+    public Builder setErrorCallback(@NonNull ErrorCallback callback) {
+      this.errorCallback = callback;
+      return this;
+    }
+
+    public Builder setShowRationalDialog(boolean showRationalDialog) {
+      this.showRationalDialog = showRationalDialog;
+      return this;
+    }
+
     /**
      * Request the permissions set using the Builder
      *
@@ -164,10 +166,10 @@ public class AskPermission implements PermissionCallback {
     public void request(@IntRange(from = 1, to = Integer.MAX_VALUE) final int requestCode) {
       AskPermission permission;
       if (activity != null) {
-        permission = new AskPermission(activity, callback);
+        permission = new AskPermission(activity, callback, errorCallback);
         permission.requestAppPermissions(this, requestCode);
       } else if (fragment != null) {
-        permission = new AskPermission(fragment, callback);
+        permission = new AskPermission(fragment, callback, errorCallback);
         permission.requestAppPermissions(this, requestCode);
       }
     }

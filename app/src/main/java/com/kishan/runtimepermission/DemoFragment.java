@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import com.kishan.askpermission.AskPermission;
+import com.kishan.askpermission.ErrorCallback;
 import com.kishan.askpermission.PermissionCallback;
+import com.kishan.askpermission.PermissionInterface;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DemoFragment extends Fragment implements PermissionCallback {
+public class DemoFragment extends Fragment implements PermissionCallback, ErrorCallback {
   private static final String TAG = "DemoFragment";
   private static final int REQUEST_PERMISSIONS = 20;
   private Button reqButton;
@@ -39,12 +41,11 @@ public class DemoFragment extends Fragment implements PermissionCallback {
   }
 
   private void reqPermission() {
-    AskPermission.Builder builder = new AskPermission.Builder(this);
-    builder.setRationale(R.string.runtime_permission);
-    builder.setPermissions(Manifest.permission.READ_CONTACTS,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    builder.setCallback(this);
-    builder.request(REQUEST_PERMISSIONS);
+    new AskPermission.Builder(this).setPermissions(Manifest.permission.READ_CONTACTS,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        .setCallback(this)
+        .setErrorCallback(this)
+        .request(REQUEST_PERMISSIONS);
   }
 
   @Override
@@ -58,7 +59,20 @@ public class DemoFragment extends Fragment implements PermissionCallback {
   }
 
   @Override
-  public void onShowRationalDialog(int requestCode) {
-    Log.d(TAG, "onShowRationalDialog: ");
+  public void onShowRationalDialog(PermissionInterface permissionInterface, int requestCode) {
+    Log.d(TAG, "onShowRationalDialog() called with: permissionInterface = ["
+        + permissionInterface
+        + "], requestCode = ["
+        + requestCode
+        + "]");
+  }
+
+  @Override
+  public void onShowSettings(PermissionInterface permissionInterface, int requestCode) {
+    Log.d(TAG, "onShowSettings() called with: permissionInterface = ["
+        + permissionInterface
+        + "], requestCode = ["
+        + requestCode
+        + "]");
   }
 }
