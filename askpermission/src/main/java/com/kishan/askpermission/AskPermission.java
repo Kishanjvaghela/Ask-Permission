@@ -44,6 +44,11 @@ public class AskPermission implements PermissionCallback, ErrorCallback {
     this(fragment.getFragmentManager(), callback, errorCallback);
   }
 
+  public AskPermission(android.support.v4.app.Fragment fragment, PermissionCallback callback,
+      ErrorCallback errorCallback) {
+    this(fragment.getFragmentManager(), callback, errorCallback);
+  }
+
   private void requestAppPermissions(Builder builder, int requestCode) {
     if (builder.permissions == null) {
       throw new InvalidParameterException("Permissions must be set");
@@ -99,6 +104,7 @@ public class AskPermission implements PermissionCallback, ErrorCallback {
     private ErrorCallback errorCallback;
     private Activity activity;
     private Fragment fragment;
+    private android.support.v4.app.Fragment supportFragment;
     private boolean showRationalDialog;
 
     public Builder(Activity activity) {
@@ -107,6 +113,10 @@ public class AskPermission implements PermissionCallback, ErrorCallback {
 
     public Builder(Fragment fragment) {
       this.fragment = fragment;
+    }
+
+    public Builder(android.support.v4.app.Fragment fragment) {
+      this.supportFragment = fragment;
     }
 
     /**
@@ -163,6 +173,9 @@ public class AskPermission implements PermissionCallback, ErrorCallback {
         permission.requestAppPermissions(this, requestCode);
       } else if (fragment != null) {
         permission = new AskPermission(fragment, callback, errorCallback);
+        permission.requestAppPermissions(this, requestCode);
+      } else if (supportFragment != null) {
+        permission = new AskPermission(supportFragment, callback, errorCallback);
         permission.requestAppPermissions(this, requestCode);
       }
     }
