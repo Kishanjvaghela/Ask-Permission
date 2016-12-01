@@ -12,7 +12,7 @@ import android.support.v4.content.ContextCompat;
  * Created by CS02 on 10/14/2016.
  */
 
-public class AskPermissionImp implements PermissionInterface {
+class AskPermissionImp implements PermissionInterface {
 
   private PermissionCallback mInterface;
   private ErrorCallback mErrorCallback;
@@ -108,7 +108,7 @@ public class AskPermissionImp implements PermissionInterface {
     mContext.startActivity(intent);
   }
 
-  public interface AskPermissionInterface {
+  interface AskPermissionInterface {
 
     void requestPermission(@NonNull String[] permissions, int requestCode);
 

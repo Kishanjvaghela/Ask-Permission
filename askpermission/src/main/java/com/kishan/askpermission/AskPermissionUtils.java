@@ -8,7 +8,7 @@ import android.app.FragmentTransaction;
  * Created by CS02 on 12/1/2016.
  */
 
-public class AskPermissionUtils {
+class AskPermissionUtils {
   private static final String PERMISSION_TAG = "permission";
 
   public static void removeFragment(FragmentManager fragmentManager) {
