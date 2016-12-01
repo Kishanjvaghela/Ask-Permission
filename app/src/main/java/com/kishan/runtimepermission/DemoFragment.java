@@ -2,7 +2,9 @@ package com.kishan.runtimepermission;
 
 import android.Manifest;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,20 +61,32 @@ public class DemoFragment extends Fragment implements PermissionCallback, ErrorC
   }
 
   @Override
-  public void onShowRationalDialog(PermissionInterface permissionInterface, int requestCode) {
-    Log.d(TAG, "onShowRationalDialog() called with: permissionInterface = ["
-        + permissionInterface
-        + "], requestCode = ["
-        + requestCode
-        + "]");
+  public void onShowRationalDialog(final PermissionInterface permissionInterface, int requestCode) {
+    Log.d(TAG, "onShowRationalDialog: ");
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setMessage("We need permissions for this app.");
+    builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        permissionInterface.onDialogShown();
+      }
+    });
+    builder.setNegativeButton(R.string.btn_cancel, null);
+    builder.show();
   }
 
   @Override
-  public void onShowSettings(PermissionInterface permissionInterface, int requestCode) {
-    Log.d(TAG, "onShowSettings() called with: permissionInterface = ["
-        + permissionInterface
-        + "], requestCode = ["
-        + requestCode
-        + "]");
+  public void onShowSettings(final PermissionInterface permissionInterface, int requestCode) {
+    Log.d(TAG, "onShowSettings: ");
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setMessage("We need permissions for this app. Open setting screen?");
+    builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        permissionInterface.onSettingsShown();
+      }
+    });
+    builder.setNegativeButton(R.string.btn_cancel, null);
+    builder.show();
   }
 }

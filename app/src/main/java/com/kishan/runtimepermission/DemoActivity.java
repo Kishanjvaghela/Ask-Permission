@@ -1,7 +1,9 @@
 package com.kishan.runtimepermission;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -48,12 +50,30 @@ public class DemoActivity extends AppCompatActivity implements PermissionCallbac
   }
 
   @Override
-  public void onShowRationalDialog(PermissionInterface permissionInterface, int requestCode) {
-
+  public void onShowRationalDialog(final PermissionInterface permissionInterface, int requestCode) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setMessage("We need permissions for this app.");
+    builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        permissionInterface.onDialogShown();
+      }
+    });
+    builder.setNegativeButton(R.string.btn_cancel, null);
+    builder.show();
   }
 
   @Override
-  public void onShowSettings(PermissionInterface permissionInterface, int requestCode) {
-
+  public void onShowSettings(final PermissionInterface permissionInterface, int requestCode) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setMessage("We need permissions for this app. Open setting screen?");
+    builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        permissionInterface.onSettingsShown();
+      }
+    });
+    builder.setNegativeButton(R.string.btn_cancel, null);
+    builder.show();
   }
 }
