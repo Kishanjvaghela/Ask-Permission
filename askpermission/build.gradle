@@ -1,5 +1,27 @@
 apply plugin: 'com.android.library'
+ext {
+  bintrayRepo = 'maven'
+  bintrayName = 'askpermission'
 
+  publishedGroupId = 'com.kishan.askpermission'
+  libraryName = 'AskPermission'
+  artifact = 'askpermission'
+
+  libraryDescription = 'Ask Permission'
+
+  siteUrl = 'https://github.com/Kishanjvaghela/Ask-Permission'
+  gitUrl = 'https://github.com/Kishanjvaghela/Ask-Permission.git'
+
+  libraryVersion = '1.0'
+
+  developerId = 'kishanvaghela'
+  developerName = 'Kishan Vaghela'
+  developerEmail = 'kishan.j.vaghela@gmail.com'
+
+  licenseName = 'The Apache Software License, Version 2.0'
+  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+  allLicenses = ["Apache-2.0"]
+}
 android {
   compileSdkVersion 24
   buildToolsVersion "24.0.3"
@@ -29,3 +51,6 @@ dependencies {
   androidTestCompile 'com.android.support.test:runner:0.5'
   androidTestCompile 'com.android.support:support-annotations:24.2.1'
 }
+
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'
