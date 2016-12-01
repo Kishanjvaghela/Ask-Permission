@@ -22,4 +22,11 @@
       android:onClick="fragmentDemoClick"
       android:text="@string/btn_fragment_demo"
       />
+
+  <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:onClick="supportFragmentDemoClick"
+      android:text="@string/btn_support_fragment_demo"
+      />
 </LinearLayout>

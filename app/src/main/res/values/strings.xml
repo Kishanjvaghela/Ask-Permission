@@ -10,4 +10,5 @@
   <string name="hello_blank_fragment">Hello blank supportFragment</string>
   <string name="btn_ok">OK</string>
   <string name="btn_cancel">Cancel</string>
+  <string name="btn_support_fragment_demo">Support Fragment Demo</string>
 </resources>

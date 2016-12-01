@@ -19,7 +19,12 @@ public class MainActivity extends Activity {
   }
 
   public void fragmentDemoClick(View view) {
-    Intent intent = new Intent(this, DemoFragActivity.class);
+    Intent intent = DemoFragActivity.getInstance(this, false);
+    startActivity(intent);
+  }
+
+  public void supportFragmentDemoClick(View view) {
+    Intent intent = DemoFragActivity.getInstance(this, true);
     startActivity(intent);
   }
 }

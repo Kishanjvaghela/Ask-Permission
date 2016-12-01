@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     tools:context="com.kishan.runtimepermission.DemoFragActivity"
     >
-  <fragment
-      android:name="com.kishan.runtimepermission.DemoFragment"
+  <FrameLayout
+      android:id="@+id/fragmentContentLayout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       />
