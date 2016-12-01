@@ -1,16 +1,16 @@
 package com.kishan.askpermission;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v13.app.FragmentCompat;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by CS02 on 12/1/2016.
  */
 
-public class ShadowFragment extends Fragment implements AskPermissionImp.AskPermissionInterface {
+public class ShadowSupportFragment extends Fragment
+    implements AskPermissionImp.AskPermissionInterface {
 
   private PermissionCallback mInterface;
   private ErrorCallback mErrorCallback;
@@ -19,9 +19,9 @@ public class ShadowFragment extends Fragment implements AskPermissionImp.AskPerm
   private boolean showRationalDialog;
   private AskPermissionImp mImp;
 
-  public static ShadowFragment getInstance(String[] requestedPermission, int requestCode,
+  public static ShadowSupportFragment getInstance(String[] requestedPermission, int requestCode,
       boolean showRationalDialog, PermissionCallback mAnInterface, ErrorCallback errorCallback) {
-    ShadowFragment shadowFragment = new ShadowFragment();
+    ShadowSupportFragment shadowFragment = new ShadowSupportFragment();
     shadowFragment.mInterface = mAnInterface;
     shadowFragment.mErrorCallback = errorCallback;
     shadowFragment.requestedPermission = requestedPermission;
@@ -41,12 +41,12 @@ public class ShadowFragment extends Fragment implements AskPermissionImp.AskPerm
 
   @Override
   public void requestPermission(@NonNull String[] permissions, int requestCode) {
-    FragmentCompat.requestPermissions(this, permissions, requestCode);
+    requestPermissions(permissions, requestCode);
   }
 
   @Override
   public boolean shouldShowPermissionRationale(@NonNull String permission) {
-    return FragmentCompat.shouldShowRequestPermissionRationale(this, permission);
+    return shouldShowRequestPermissionRationale(permission);
   }
 
   @Override

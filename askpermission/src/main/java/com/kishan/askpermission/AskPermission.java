@@ -3,7 +3,6 @@ package com.kishan.askpermission;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
@@ -15,55 +14,50 @@ import java.security.InvalidParameterException;
 
 public class AskPermission implements PermissionCallback, ErrorCallback {
   private static final String TAG = "AskPermission";
-  private static final String PERMISSION_TAG = "permission";
+
   private PermissionCallback mCallback;
   private ErrorCallback mErrorCallback;
-  private Activity activity;
-  private Fragment fragment;
+  private FragmentManager manager;
+  private android.support.v4.app.FragmentManager supportManager;
+
+  private AskPermission(FragmentManager fragmentManager, PermissionCallback callback,
+      ErrorCallback errorCallback) {
+    this.manager = fragmentManager;
+    this.mCallback = callback;
+    this.mErrorCallback = errorCallback;
+  }
+
+  private AskPermission(android.support.v4.app.FragmentManager fragmentManager,
+      PermissionCallback callback, ErrorCallback errorCallback) {
+    this.supportManager = fragmentManager;
+    this.mCallback = callback;
+    this.mErrorCallback = errorCallback;
+  }
 
   public AskPermission(Activity activity, PermissionCallback callback,
       ErrorCallback errorCallback) {
-    this.activity = activity;
-    this.mCallback = callback;
-    this.mErrorCallback = errorCallback;
+    this(activity.getFragmentManager(), callback, errorCallback);
   }
 
   public AskPermission(Fragment fragment, PermissionCallback callback,
       ErrorCallback errorCallback) {
-    this.fragment = fragment;
-    this.mCallback = callback;
-    this.mErrorCallback = errorCallback;
+    this(fragment.getFragmentManager(), callback, errorCallback);
   }
 
   private void requestAppPermissions(Builder builder, int requestCode) {
-    if (activity != null) {
-      requestAppPermissions(builder, activity.getFragmentManager(), requestCode);
-    } else if (fragment != null) {
-      requestAppPermissions(builder, fragment.getFragmentManager(), requestCode);
-    }
-  }
-
-  private void requestAppPermissions(Builder builder, FragmentManager fragManager,
-      int requestCode) {
     if (builder.permissions == null) {
       throw new InvalidParameterException("Permissions must be set");
     }
     if (builder.callback == null) {
       throw new InvalidParameterException("Callback must be set");
     }
-    ShadowFragment fragment = new ShadowFragment();
-    fragment.setInterface(this);
-    if (mErrorCallback == null) {
-      fragment.setErrorInterface(null);
-    } else {
-      fragment.setErrorInterface(this);
+    if (manager != null) {
+      ShadowFragment shadowFragment = builder.buildFragment(requestCode);
+      AskPermissionUtils.addFragment(manager, shadowFragment);
+    } else if (supportManager != null) {
+      ShadowSupportFragment shadowFragment = builder.buildSupportFragment(requestCode);
+      AskPermissionUtils.addFragment(supportManager, shadowFragment);
     }
-    fragment.setShowRationalDialog(builder.showRationalDialog);
-    fragment.setPermission(builder.permissions);
-    fragment.setRequestCode(requestCode);
-    FragmentTransaction fragmentTransaction = fragManager.beginTransaction();
-    fragmentTransaction.add(fragment, PERMISSION_TAG);
-    fragmentTransaction.commit();
   }
 
   @Override
@@ -91,19 +85,8 @@ public class AskPermission implements PermissionCallback, ErrorCallback {
   }
 
   private void removeFragment() {
-    if (activity != null) {
-      removeFragment(activity.getFragmentManager());
-    } else if (fragment != null) {
-      removeFragment(fragment.getFragmentManager());
-    }
-  }
-
-  private void removeFragment(FragmentManager fragmentManager) {
-    Fragment fragment = fragmentManager.findFragmentByTag(PERMISSION_TAG);
-    if (fragment != null) {
-      FragmentTransaction transaction = fragmentManager.beginTransaction();
-      transaction.remove(fragment);
-      transaction.commit();
+    if (manager != null) {
+      AskPermissionUtils.removeFragment(manager);
     }
   }
 
@@ -156,6 +139,16 @@ public class AskPermission implements PermissionCallback, ErrorCallback {
     public Builder setShowRationalDialog(boolean showRationalDialog) {
       this.showRationalDialog = showRationalDialog;
       return this;
+    }
+
+    private ShadowFragment buildFragment(int reqCode) {
+      return ShadowFragment.getInstance(permissions, reqCode, showRationalDialog, callback,
+          errorCallback);
+    }
+
+    private ShadowSupportFragment buildSupportFragment(int reqCode) {
+      return ShadowSupportFragment.getInstance(permissions, reqCode, showRationalDialog, callback,
+          errorCallback);
     }
 
     /**
