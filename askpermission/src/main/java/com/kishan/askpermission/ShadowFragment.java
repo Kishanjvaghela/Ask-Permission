@@ -1,6 +1,5 @@
 package com.kishan.askpermission;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,8 +9,8 @@ import android.support.v13.app.FragmentCompat;
 /**
  * Created by CS02 on 12/1/2016.
  */
-@SuppressLint("ValidFragment")
-class ShadowFragment extends Fragment implements AskPermissionImp.AskPermissionInterface {
+
+public class ShadowFragment extends Fragment implements AskPermissionImp.AskPermissionInterface {
 
   private PermissionCallback mInterface;
   private ErrorCallback mErrorCallback;
@@ -20,7 +19,7 @@ class ShadowFragment extends Fragment implements AskPermissionImp.AskPermissionI
   private boolean showRationalDialog;
   private AskPermissionImp mImp;
 
-  public ShadowFragment() {
+  private ShadowFragment() {
   }
 
   static ShadowFragment getInstance(String[] requestedPermission, int requestCode,
