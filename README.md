@@ -31,8 +31,7 @@ new AskPermission.Builder(this)
 
 Here you have two callback
 
-##### PermissionCallback
-[Example](https://github.com/Kishanjvaghela/Ask-Permission/blob/master/app/src/main/java/com/kishan/runtimepermission/DemoActivity.java#L53-L64)
+### PermissionCallback
 ```java
 @Override
   public void onPermissionsGranted(int requestCode) {
@@ -45,8 +44,8 @@ Here you have two callback
   }
  ```
  
-##### ErrorCallback
-[Example](https://github.com/Kishanjvaghela/Ask-Permission/blob/master/app/src/main/java/com/kishan/runtimepermission/DemoActivity.java#L67-L78)
+### ErrorCallback
+[Example](https://github.com/Kishanjvaghela/Ask-Permission/blob/master/app/src/main/java/com/kishan/runtimepermission/DemoActivity.java#L53-L78)
 ```java
   @Override
   public void onShowRationalDialog(PermissionInterface permissionInterface, int requestCode) {
