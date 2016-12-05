@@ -19,9 +19,6 @@ public class ShadowSupportFragment extends Fragment
   private boolean showRationalDialog;
   private AskPermissionImp mImp;
 
-  private ShadowSupportFragment() {
-  }
-
   static ShadowSupportFragment getInstance(String[] requestedPermission, int requestCode,
       boolean showRationalDialog, PermissionCallback mAnInterface, ErrorCallback errorCallback) {
     ShadowSupportFragment shadowFragment = new ShadowSupportFragment();

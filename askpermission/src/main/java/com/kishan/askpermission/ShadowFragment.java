@@ -19,8 +19,6 @@ public class ShadowFragment extends Fragment implements AskPermissionImp.AskPerm
   private boolean showRationalDialog;
   private AskPermissionImp mImp;
 
-  private ShadowFragment() {
-  }
 
   static ShadowFragment getInstance(String[] requestedPermission, int requestCode,
       boolean showRationalDialog, PermissionCallback mAnInterface, ErrorCallback errorCallback) {
