@@ -12,7 +12,7 @@ ext {
   siteUrl = 'https://github.com/Kishanjvaghela/Ask-Permission'
   gitUrl = 'https://github.com/Kishanjvaghela/Ask-Permission.git'
 
-  libraryVersion = '1.0.1'
+  libraryVersion = '1.0.2'
 
   developerId = 'kishanvaghela'
   developerName = 'Kishan Vaghela'
@@ -29,8 +29,8 @@ android {
   defaultConfig {
     minSdkVersion 15
     targetSdkVersion 24
-    versionCode 2
-    versionName "1.0.1"
+    versionCode 3
+    versionName "1.0.2"
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
