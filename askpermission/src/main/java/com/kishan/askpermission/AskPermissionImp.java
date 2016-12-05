@@ -42,8 +42,8 @@ class AskPermissionImp implements PermissionInterface {
     this.requestCode = requestCode;
   }
 
-  public void requestAppPermissions(final String[] requestedPermissions, final int requestCode,
-      boolean showRationalDialog) {
+  public void requestAppPermissions(@NonNull final String[] requestedPermissions,
+      final int requestCode, boolean showRationalDialog) {
     setRequestCode(requestCode);
     setPermission(requestedPermissions);
     int permissionCheck = PackageManager.PERMISSION_GRANTED;

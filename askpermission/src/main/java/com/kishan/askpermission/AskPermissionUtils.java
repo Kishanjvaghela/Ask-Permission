@@ -30,6 +30,12 @@ class AskPermissionUtils {
   }
 
   public static void addFragment(FragmentManager fragmentManager, Fragment fragment) {
+    if (fragmentManager == null) {
+      return;
+    }
+    if (fragment == null) {
+      return;
+    }
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
     fragmentTransaction.add(fragment, PERMISSION_TAG);
     fragmentTransaction.commit();
@@ -37,6 +43,12 @@ class AskPermissionUtils {
 
   public static void addFragment(android.support.v4.app.FragmentManager fragmentManager,
       android.support.v4.app.Fragment fragment) {
+    if (fragmentManager == null) {
+      return;
+    }
+    if (fragment == null) {
+      return;
+    }
     android.support.v4.app.FragmentTransaction fragmentTransaction =
         fragmentManager.beginTransaction();
     fragmentTransaction.add(fragment, PERMISSION_TAG);

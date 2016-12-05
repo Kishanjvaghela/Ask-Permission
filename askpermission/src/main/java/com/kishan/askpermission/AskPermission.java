@@ -152,13 +152,21 @@ public class AskPermission implements PermissionCallback, ErrorCallback {
     }
 
     private ShadowFragment buildFragment(int reqCode) {
-      return ShadowFragment.getInstance(permissions, reqCode, showRationalDialog, callback,
-          errorCallback);
+      if (permissions != null) {
+        return ShadowFragment.getInstance(permissions, reqCode, showRationalDialog, callback,
+            errorCallback);
+      } else {
+        return null;
+      }
     }
 
     private ShadowSupportFragment buildSupportFragment(int reqCode) {
-      return ShadowSupportFragment.getInstance(permissions, reqCode, showRationalDialog, callback,
-          errorCallback);
+      if (permissions != null) {
+        return ShadowSupportFragment.getInstance(permissions, reqCode, showRationalDialog, callback,
+            errorCallback);
+      } else {
+        return null;
+      }
     }
 
     /**

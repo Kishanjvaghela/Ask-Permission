@@ -36,7 +36,9 @@ public class ShadowSupportFragment extends Fragment
     mImp = new AskPermissionImp(getActivity(), this);
     mImp.setErrorInterface(mErrorCallback);
     mImp.setInterface(mInterface);
-    mImp.requestAppPermissions(requestedPermission, requestCode, showRationalDialog);
+    if (requestedPermission != null && requestedPermission.length > 0) {
+      mImp.requestAppPermissions(requestedPermission, requestCode, showRationalDialog);
+    }
   }
 
   @Override
