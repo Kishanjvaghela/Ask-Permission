@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/Kishanjvaghela/Ask-Permission.png?label=ready&title=Ready)](https://waffle.io/Kishanjvaghela/Ask-Permission)
 # Ask Permission
 
 [ ![Download](https://api.bintray.com/packages/kishanvaghela/maven/askpermission/images/download.svg) ](https://bintray.com/kishanvaghela/maven/askpermission/_latestVersion)
