@@ -19,7 +19,6 @@ public class ShadowFragment extends Fragment implements AskPermissionImp.AskPerm
   private boolean showRationalDialog;
   private AskPermissionImp mImp;
 
-
   static ShadowFragment getInstance(String[] requestedPermission, int requestCode,
       boolean showRationalDialog, PermissionCallback mAnInterface, ErrorCallback errorCallback) {
     ShadowFragment shadowFragment = new ShadowFragment();
@@ -37,7 +36,9 @@ public class ShadowFragment extends Fragment implements AskPermissionImp.AskPerm
     mImp = new AskPermissionImp(getActivity(), this);
     mImp.setErrorInterface(mErrorCallback);
     mImp.setInterface(mInterface);
-    mImp.requestAppPermissions(requestedPermission, requestCode, showRationalDialog);
+    if (requestedPermission != null && requestedPermission.length > 0) {
+      mImp.requestAppPermissions(requestedPermission, requestCode, showRationalDialog);
+    }
   }
 
   @Override
