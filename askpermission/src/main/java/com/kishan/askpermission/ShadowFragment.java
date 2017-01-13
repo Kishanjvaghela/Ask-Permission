@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v13.app.ActivityCompat;
 import android.support.v13.app.FragmentCompat;
 
 /**
@@ -48,7 +49,7 @@ public class ShadowFragment extends Fragment implements AskPermissionImp.AskPerm
 
   @Override
   public boolean shouldShowPermissionRationale(@NonNull String permission) {
-    return FragmentCompat.shouldShowRequestPermissionRationale(this, permission);
+    return ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permission);
   }
 
   @Override

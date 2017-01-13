@@ -3,6 +3,7 @@ package com.kishan.askpermission;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v13.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
 /**
@@ -48,7 +49,7 @@ public class ShadowSupportFragment extends Fragment
 
   @Override
   public boolean shouldShowPermissionRationale(@NonNull String permission) {
-    return shouldShowRequestPermissionRationale(permission);
+    return ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permission);
   }
 
   @Override

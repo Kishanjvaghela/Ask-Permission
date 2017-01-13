@@ -54,8 +54,16 @@ class AskPermissionImp implements PermissionInterface {
           || askPermissionInterface.shouldShowPermissionRationale(permission);
     }
     if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-      if (showRationalDialog && mErrorCallback != null && shouldShowRequestPermissionRationale) {
-        mErrorCallback.onShowRationalDialog(this, requestCode);
+      if (mErrorCallback != null) {
+        if (shouldShowRequestPermissionRationale) {
+          mErrorCallback.onShowRationalDialog(this, requestCode);
+        } else {
+          if (showRationalDialog) {
+            mErrorCallback.onShowRationalDialog(this, requestCode);
+          } else {
+            askPermissionInterface.requestPermission(requestedPermission, requestCode);
+          }
+        }
       } else {
         askPermissionInterface.requestPermission(requestedPermission, requestCode);
       }
