@@ -8,17 +8,8 @@ Simple RunTime permission manager
 
 ### How to use
 Add url to your gradle file
-```gradle
-  repositories {
-        jcenter()
-        maven {
-            url 'https://dl.bintray.com/kishanvaghela/maven/'
-        }
-    }
-```
-And 
 ```Gradle
-compile 'com.kishan.askpermission:askpermission:1.0'
+compile 'com.kishan.askpermission:askpermission:1.0.3'
 ```
 
 Now you can Ask for permission 
