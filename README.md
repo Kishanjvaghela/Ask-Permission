@@ -11,6 +11,12 @@ Add url to your gradle file
 ```Gradle
 compile 'com.kishan.askpermission:askpermission:1.0.3'
 ```
+If you got conflicting in support library then 
+```Gradle
+compile('com.kishan.askpermission:askpermission:1.0.3', {
+        exclude group: 'com.android.support'
+    })
+```
 
 Now you can Ask for permission 
 ```java
