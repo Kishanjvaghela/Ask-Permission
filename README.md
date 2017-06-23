@@ -4,6 +4,7 @@ https://kishanjvaghela.github.io/Ask-Permission/
 [ ![Download](https://api.bintray.com/packages/kishanvaghela/maven/askpermission/images/download.svg) ](https://bintray.com/kishanvaghela/maven/askpermission/_latestVersion)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Ask--Permission-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5857)
 [![Stories in Ready](https://badge.waffle.io/Kishanjvaghela/Ask-Permission.png?label=ready&title=Ready)](https://waffle.io/Kishanjvaghela/Ask-Permission)
+<a href="http://www.methodscount.com/?lib=com.kishan.askpermission%3Aaskpermission%3A1.0.3"><img src="https://img.shields.io/badge/Methods and size-core: 102 | deps: 16757 | 24 KB-e91e63.svg"/></a>
 
 Simple RunTime permission manager
 
