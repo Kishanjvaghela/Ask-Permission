@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import java.security.InvalidParameterException;
@@ -50,6 +51,10 @@ public class AskPermission implements PermissionCallback, ErrorCallback {
   }
 
   private void requestAppPermissions(Builder builder, int requestCode) {
+    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+      mCallback.onPermissionsGranted(requestCode);
+      return;
+    }
     if (builder.permissions == null) {
       throw new InvalidParameterException("Permissions must be set");
     }
